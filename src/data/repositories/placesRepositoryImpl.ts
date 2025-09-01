@@ -1,28 +1,42 @@
 import { Place } from "../../domain/entities/place";
 import { PlacesRepository } from "../../domain/repositories/placesRepository";
-
-const mockPlaces: Place[] = [
-  { id: "1", name: "Great Wall of China", visited: false },
-  { id: "2", name: "Taj Mahal", visited: false },
-  { id: "3", name: "Colosseum", visited: false },
-];
+import { getDb } from "../../services/database";
 
 export class PlacesRepositoryImpl implements PlacesRepository {
-  private places = [...mockPlaces];
-
   async getPlaces(): Promise<Place[]> {
-    return this.places;
+    const db = await getDb();
+    const rows = await db.getAllAsync<any>("SELECT * FROM places;");
+    return rows.map((row) => ({
+      id: row.id,
+      name: row.name,
+      location: row.location,
+      visited: row.visited, // ✅ convert number → boolean
+    }));
+  }
+
+  async insertPlace(place: Place): Promise<void> {
+    const db = await getDb();
+    await db.runAsync(
+      "INSERT INTO places (id, name, location, visited) VALUES (?, ?, ?, ?)",
+      [place.id, place.name, place.location, place.visited ? 1 : 0]
+    );
   }
 
   async markVisited(id: string): Promise<void> {
-    this.places = this.places.map((p) =>
-      p.id === id ? { ...p, visited: true } : p
-    );
+    const db = await getDb();
+    await db.runAsync("UPDATE places SET visited = 1 WHERE id = ?", [id]);
   }
 
   async unmarkVisited(id: string): Promise<void> {
-    this.places = this.places.map((p) =>
-      p.id === id ? { ...p, visited: false } : p
-    );
+    const db = await getDb();
+    await db.runAsync("UPDATE places SET visited = 0 WHERE id = ?", [id]);
+  }
+
+  async updateVisited(id: string, visited: boolean): Promise<void> {
+    const db = await getDb();
+    await db.runAsync("UPDATE places SET visited = ? WHERE id = ?", [
+      visited ? 1 : 0,
+      id,
+    ]);
   }
 }

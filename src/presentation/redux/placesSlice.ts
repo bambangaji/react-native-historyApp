@@ -17,13 +17,13 @@ const placesSlice = createSlice({
       state.list = action.payload;
     },
     markVisited(state, action: PayloadAction<string>) {
-      state.list = state.list.map((p) =>
-        p.id === action.payload ? { ...p, visited: true } : p
+      state.list = state.list.map(p =>
+        p.id === action.payload ? { ...p, visited: 1 } : p
       );
     },
     unmarkVisited(state, action: PayloadAction<string>) {
-      state.list = state.list.map((p) =>
-        p.id === action.payload ? { ...p, visited: false } : p
+      state.list = state.list.map(p =>
+        p.id === action.payload ? { ...p, visited: 0 } : p
       );
     },
   },

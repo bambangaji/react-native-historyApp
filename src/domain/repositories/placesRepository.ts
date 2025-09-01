@@ -4,4 +4,5 @@ export interface PlacesRepository {
   getPlaces(): Promise<Place[]>;
   markVisited(id: string): Promise<void>;
   unmarkVisited(id: string): Promise<void>;
+  updateVisited(id: string,visited: boolean): Promise<void>;
 }

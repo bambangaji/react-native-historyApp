@@ -1,6 +1,7 @@
 export interface Place {
     id: string;
     name: string;
-    visited: boolean;
+    location: string;
+    visited: number;
   }
   

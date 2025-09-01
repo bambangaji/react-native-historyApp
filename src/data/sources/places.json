@@ -1,0 +1,8 @@
+[
+    { "id": "1", "name": "Great Wall of China", "location": "China", "visited": false },
+    { "id": "2", "name": "Taj Mahal", "location": "India", "visited": false },
+    { "id": "3", "name": "Colosseum", "location": "Italy", "visited": false },
+    { "id": "4", "name": "Colosseum", "location": "Italy", "visited": false },
+    { "id": "5", "name": "Colosseum5", "location": "Italy", "visited": false }
+  ]
+  
